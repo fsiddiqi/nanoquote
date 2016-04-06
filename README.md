@@ -16,3 +16,10 @@ Then create a mock Quotes API using [Sandbox](http://getsandbox.com)
  * Save 
 * Test in a REST client of your choice
 
+# Contributions
+Updates to the swagger design and the mock API code are very welcome.  
+
+# Useful links
+* The [Swagger Specification](http://swagger.io/specification/)
+* [Underscore.js](https://lodash.com/docs) docs - used in sandbox javascript code 
+
