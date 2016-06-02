@@ -2,7 +2,7 @@
 swagger: '2.0'
 info:
   title: NanoQuote
-  description: API to manage Travel Insurance Quotes
+  description: API to manage Auto Insurance Quotes
   version: "1.0.0"
 # the domain of the service
 host: nanoquote.getsandbox.com
@@ -155,39 +155,27 @@ definitions:
     properties:
       first_name:
         type: string
-        description: Traveler first name
+        description: First name
       last_name:
         type: string
-        description: Traveler last name
+        description: Last name
       coverage:
         type: number
-        description: Destination
-      travel_date:
-        type: string
-        description: Travel date
-      travel_from:
-        type: string
-        description: Starting location
-      travel_to:
-        type: string
-        description: Destination
+        description: Coverage
   Quote2:
     properties:
       quote_id:
         type: string
         description: Unique quote identifier.
-      name:
+      first_name:
         type: string
-        description: Traveler name
-      travel_date:
+        description: First name
+      last_name:
         type: string
-        description: Travel date
-      travel_from:
-        type: string
-        description: Starting location
-      travel_to:
-        type: string
-        description: Destination
+        description: Last name
+      coverage:
+        type: number
+        description: Coverage
   Error:
     properties:
       code:
