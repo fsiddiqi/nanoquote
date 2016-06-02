@@ -4,6 +4,7 @@ API Design Demo for TechCom 2016
 NanoQuote will model and mock a very small resource model for Travel Insurance Quotes. 
 
 We'll model a Quotes resource using [Swagger Editor](http://editor.swagger.io/)
+
 ![Swagger UI](swagger.png)
 
 Then create a mock Quotes API using [Sandbox](http://getsandbox.com)

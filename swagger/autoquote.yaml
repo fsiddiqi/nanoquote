@@ -1,0 +1,199 @@
+# NanoQuote REST API in YAML
+swagger: '2.0'
+info:
+  title: NanoQuote
+  description: API to manage Travel Insurance Quotes
+  version: "1.0.0"
+# the domain of the service
+host: nanoquote.getsandbox.com
+# array of all schemes that your API supports
+schemes:
+  - http
+  - https
+# will be prefixed to all paths
+basePath: /api
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /:
+    get:
+      summary: API root
+      description: What can I do?
+      responses:
+        200:
+          description: A list of available resources
+          schema:
+            $ref: "#/definitions/Resource"
+  /quotes:
+    post:
+      tags:
+        - quotes
+      summary: Add a new quote
+      description: ""
+      operationId: addQuote
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Quote to be added
+          required: false
+          schema:
+            $ref: "#/definitions/Quote"
+      responses:
+        200:
+          description: Newly created Quote detail
+          schema:
+            $ref: "#/definitions/Quote2"
+        "405":
+          description: Invalid input
+    get:
+      summary: Get list of Quotes
+      description: Returns a collection of available quotes
+      parameters:
+        - name: category
+          in: query
+          description: quote category
+          required: false
+          type: string
+          format: string
+
+      responses:
+        200:
+          description: An array of quotes
+          schema:
+            $ref: "#/definitions/Quote"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+  /quotes/{quote_id}:
+    get:
+      summary: Quote detail
+      description: Quote details given quote id
+      parameters:
+        - in: path
+          name: quote_id
+          description: ID of quote to fetch
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - quotes
+      responses:
+        200:
+          description: Quote detail
+          schema:
+            $ref: "#/definitions/Quote2"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      summary: Update a Quote
+      description: Update Quote details given quote id
+      parameters:
+        - in: path
+          name: quote_id
+          description: ID of quote to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Quote to be updated
+          required: false
+          schema:
+            $ref: "#/definitions/Quote"
+      tags:
+        - quotes
+      responses:
+        200:
+          description: Updated Quote detail
+          schema:
+            $ref: "#/definitions/Quote"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      summary: Delete a Quote
+      description: Delete a Quote given quote id
+      parameters:
+        - in: path
+          name: quote_id
+          description: ID of quote to delete
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - quotes
+      responses:
+        200:
+          description: Success
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  Resource:
+    properties:
+      travel_date:
+        type: string
+        description: Travel date
+      travel_from:
+        type: string
+        description: Starting location
+      travel_to:
+        type: string
+        description: Destination
+  Quote:
+    properties:
+      first_name:
+        type: string
+        description: Traveler first name
+      last_name:
+        type: string
+        description: Traveler last name
+      coverage:
+        type: number
+        description: Destination
+      travel_date:
+        type: string
+        description: Travel date
+      travel_from:
+        type: string
+        description: Starting location
+      travel_to:
+        type: string
+        description: Destination
+  Quote2:
+    properties:
+      quote_id:
+        type: string
+        description: Unique quote identifier.
+      name:
+        type: string
+        description: Traveler name
+      travel_date:
+        type: string
+        description: Travel date
+      travel_from:
+        type: string
+        description: Starting location
+      travel_to:
+        type: string
+        description: Destination
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
