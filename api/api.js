@@ -22,6 +22,10 @@ exports.postApiQuotes = function (req, res) {
     theBody = req.body;
     // Generate a unique quote_id
     theBody.quote_id = _.uniqueId();
+
+    // Generate a fake premium
+    theBody.premium = 100 +  Math.floor(Math.round(Math.random() * 26 * 100) / 100);
+
     // set response body and send
     state.quotes.push(theBody);
     return res.json({
@@ -38,11 +42,36 @@ exports.postApiQuotes = function (req, res) {
  * category(type: string) - query parameter - quote category
  */
 exports.getApiQuotes = function (req, res) {
+    var quote;
+    var firstName = req.query.first_name;
+    var quoteDate = req.query.quote_date;
+    if(firstName) {
+        quote = _.filter(state.quotes, {
+            'first_name': firstName
+        });
+        //if(quote === undefined){
+        //    throw({message: "Can't find " + firstName});
+        //}
+        quotes = quote;
+    }
+    else if(quoteDate) {
+        quote = _.filter(state.quotes, {
+            'quote_date': quoteDate
+        });
+        quotes = quote;
+    }
+    else
+    {
+        quotes = state.quotes;
+
+    }
+
     // set response body and send
-    res.json({
+    return res.json({
         status: "ok",
-        quotes: state.quotes
+        state: quotes
     });
+
 };
 
 /*
@@ -99,9 +128,8 @@ exports.patchApiQuotes = function (req, res) {
         });
         //throw({message: "Can't find " + quoteID});
     }
-    quote = req.body;
-    // set response body and send
-    // BUGGY - FIX
+    // update the quote object
+    _.merge(quote, req.body);
     res.json({
         status: "ok",
         quote: quote
