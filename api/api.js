@@ -9,8 +9,11 @@
 exports.getApi = function(req, res) {
 	res.status(200);
 
+	var randomNum = faker.random.uuid(); //
+	var curDate = moment().format('YYYY-MM-DD');
+	var randomID = faker.random.uuid(); //
 	// set response body and send
-	res.json({});
+	res.json({"ret": randomID});
 };
 
 /*
@@ -23,7 +26,9 @@ exports.postApiQuotes = function(req, res) {
     state.quotes = state.quotes || [];
     theBody = req.body;
     // Generate a unique quote_id
-    theBody.quote_id = _.uniqueId();
+    //theBody.quote_id = _.uniqueId();
+    theBody.quote_id = faker.random.uuid(); //
+    theBody.quote_date = moment().format('YYYY-MM-DD');
 
     // Generate a fake premium
     theBody.premium = 100 +  Math.floor(Math.round(Math.random() * 26 * 100) / 100);
@@ -47,6 +52,7 @@ exports.getApiQuotes = function(req, res) {
     var quote;
     var firstName = req.query.first_name;
     var quoteDate = req.query.quote_date;
+    var quoteID = req.query.quote_id;
     if(firstName) {
         quote = _.filter(state.quotes, {
             'first_name': firstName
@@ -64,6 +70,11 @@ exports.getApiQuotes = function(req, res) {
         //    throw({message: "Can't find " + firstName});
         //}
         quotes = quote;
+    }
+    else if(quoteID) {
+        quotes = _.filter(state.quotes, function(o) {
+            return o.quote_id.endsWith(quoteID);
+        });
     }
     else
     {
