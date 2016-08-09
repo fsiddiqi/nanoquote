@@ -8,10 +8,10 @@
  */
 exports.getApi = function(req, res) {
 	res.status(200);
-
-	var randomNum = faker.random.uuid(); //
+	
+	var randomNum = faker.random.uuid(); // 
 	var curDate = moment().format('YYYY-MM-DD');
-	var randomID = faker.random.uuid(); //
+	var randomID = faker.random.uuid(); // 
 	// set response body and send
 	res.json({"ret": randomID});
 };
@@ -27,12 +27,12 @@ exports.postApiQuotes = function(req, res) {
     theBody = req.body;
     // Generate a unique quote_id
     //theBody.quote_id = _.uniqueId();
-    theBody.quote_id = faker.random.uuid(); //
+    theBody.quote_id = faker.random.uuid(); // 
     theBody.quote_date = moment().format('YYYY-MM-DD');
 
     // Generate a fake premium
     theBody.premium = 100 +  Math.floor(Math.round(Math.random() * 26 * 100) / 100);
-
+    
     // set response body and send
     state.quotes.push(theBody);
     return res.json({
@@ -72,14 +72,14 @@ exports.getApiQuotes = function(req, res) {
         quotes = quote;
     }
     else if(quoteID) {
-        quotes = _.filter(state.quotes, function(o) {
-            return o.quote_id.endsWith(quoteID);
+        quotes = _.filter(state.quotes, function(o) { 
+            return o.quote_id.endsWith(quoteID); 
         });
     }
     else
     {
         quotes = state.quotes;
-
+        
     }
 
     // set response body and send
