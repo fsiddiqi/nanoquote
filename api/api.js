@@ -42,6 +42,48 @@ exports.postApiQuotes = function(req, res) {
 };
 
 /*
+ * POST /api/quotes/prefill
+ *
+ * Parameters (body params accessible on req.body for JSON, req.xmlDoc for XML):
+ *
+ */
+exports.postApiPrefillQuotes = function(req, res) {
+    state.quotes = state.quotes || [];
+    reqBody = req.body;
+    numFakes = req.body && req.body.num ? req.body.num : 1;
+    theAdded = [];
+    
+    for(i=0; i<numFakes; i++) {
+        theCard = faker.helpers.createCard();
+        names = theCard.name.split(" ");
+        theBody = {
+          "first_name": names[0],
+          "last_name": names[1],
+          "email": theCard.email,
+          "address": theCard.address,
+          "job_title": faker.name.jobTitle(),
+          "job_area": faker.name.jobArea(),
+          "phone": faker.phone.phoneNumber(),
+          "coverage": faker.random.number(),
+          "effective_date": faker.date.future(), 
+          "purpose": faker.random.word(3),
+          "quote_id": faker.random.uuid(),
+          "quote_date": moment().format('YYYY-MM-DD'),
+          "premium": faker.finance.amount()
+        };
+    
+        // set response body and send
+        state.quotes.push(theBody);
+        theAdded.push(theBody);
+    }
+
+    return res.json({
+        status: "ok",
+        state: theAdded
+    });
+};
+
+/*
  * GET /api/quotes
  *
  * Parameters (named path params accessible on req.params and query params on req.query):
